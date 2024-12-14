@@ -18,16 +18,6 @@ const personSchema = new Schema({
         required: true,
         trim: true,
     },
-    assignedJobs: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'JobOrder',
-        default: [],
-    }],
-    status: {
-        type: String,
-        enum: ['active', 'inactive'],
-        default: 'active',
-    },
 }, {
     timestamps: true,
 });

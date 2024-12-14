@@ -33,7 +33,7 @@ const inventorySchema = new Schema({
   unitPrice: {
     type: Number,
     default: 0,
-    min: 0 // Price per unit, could be zero for parts not for sale
+    min: 0
   },
   location: {
     type: String,
@@ -49,13 +49,11 @@ const inventorySchema = new Schema({
   }
 });
 
-// Automatically update the 'updatedAt' field when a document is modified
 inventorySchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();
 });
 
-// Create the Inventory model
 const Inventory = mongoose.model('Inventory', inventorySchema);
 
 export default Inventory;

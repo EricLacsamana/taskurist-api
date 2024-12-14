@@ -21,7 +21,7 @@ const personSchema = new Schema({
     assignedJobs: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'JobOrder',
-        default: [],  // Set to an empty array if no jobs are assigned initially
+        default: [],
     }],
     status: {
         type: String,
@@ -29,7 +29,7 @@ const personSchema = new Schema({
         default: 'active',
     },
 }, {
-    timestamps: true,  // Automatically handle createdAt and updatedAt
+    timestamps: true,
 });
 
 

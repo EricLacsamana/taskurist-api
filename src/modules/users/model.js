@@ -1,11 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-    },
     email: {
         type: String,
         required: true,
@@ -28,8 +23,13 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin', 'moderator'],
         default: 'user',
     },
+    person: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Person',
+        required: true,
+    },
 }, {
-    timestamps: true, 
+    timestamps: true,
 });
 
 const User = mongoose.model('User', userSchema);

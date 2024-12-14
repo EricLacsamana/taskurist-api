@@ -6,6 +6,11 @@ const authService = {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
     },
+    generateInviteToken: (personId) => {
+        const payload = { personId };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        return token;
+    },
 };
 
 export default authService;

@@ -23,3 +23,10 @@ export const authenticateJWT = (req, res, next) => {
         next();
     });
 };
+
+export const authenticateAdmin = (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+      return next();
+    }
+    throw new UnauthorizedError('Access denied, admin only');
+};

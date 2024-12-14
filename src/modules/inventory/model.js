@@ -27,8 +27,8 @@ const inventorySchema = new Schema({
   },
   quantity: {
     type: Number,
-    default: 0, // The quantity of the SKU in stock
-    min: 0 // Prevent negative quantities
+    default: 0,
+    min: 0
   },
   unitPrice: {
     type: Number,

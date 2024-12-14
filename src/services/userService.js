@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import User from './model.js';
+import User from '../models/User.js';
 
 const userService = {
     createUser: async ({ name, email, username, password }) => {

@@ -1,10 +1,10 @@
 import bcrypt from 'bcryptjs';
-import authService from './service.js';
-import userService from '../users/service.js';
-import { UnauthorizedError } from '../../errors/UnauthorizedError.js';
-import { ConflictError } from '../../errors/ConflictError.js';
-import { NotFoundError } from '../../errors/NotFoundError.js';
-import sendEmail from '../../utils/email.js';
+import authService from '../services/authService.js';
+import userService from '../services/userService.js';
+import { UnauthorizedError } from '../errors/UnauthorizedError.js';
+import { ConflictError } from '../errors/ConflictError.js';
+import { NotFoundError } from '../errors/NotFoundError.js';
+import sendEmail from '../utils/email.js';
 
 const authController = {
     register: async (req, res, next) => {

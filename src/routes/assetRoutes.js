@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { authenticateJWT } from '../../middleware/auth-middleware.js';
-import assetController from './controller.js';
+import { authenticateJWT } from '../middleware/auth-middleware.js';
+import assetController from '../controllers/assetController.js';
 
 const assetRoutes = Router();
 

@@ -1,5 +1,5 @@
-import userService from './service.js';
-import { NotFoundError } from '../../errors/NotFoundError.js';
+import userService from '../services/userService.js';
+import { NotFoundError } from '../errors/NotFoundError.js';
 
 const userController = {
     createUser: async (req, res, next) => {

@@ -1,4 +1,4 @@
-import Asset from './model.js';
+import Asset from '../models/Asset.js';
 
 const assetService = {
     createAsset: async ({ name, type, serialNumber, purchaseDate, warrantyExpirationDate, currentCondition, location, status, lastServiceDate, nextServiceDue, client }) => {

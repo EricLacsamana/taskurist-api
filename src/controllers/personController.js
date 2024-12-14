@@ -1,5 +1,5 @@
 import personService from './service.js';
-import { NotFoundError } from '../../errors/NotFoundError.js';
+import { NotFoundError } from '../errors/NotFoundError.js';
 
 const personController = {
     createPerson: async (req, res, next) => {

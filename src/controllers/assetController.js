@@ -1,6 +1,6 @@
 import assetService from './service.js';
-import { NotFoundError } from '../../errors/NotFoundError.js';
-import { ConflictError } from '../../errors/ConflictError.js';
+import { NotFoundError } from '../errors/NotFoundError.js';
+import { ConflictError } from '../errors/ConflictError.js';
 
 const assetController = {
     createAsset: async (req, res, next) => {

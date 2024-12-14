@@ -1,4 +1,4 @@
-import Person from './model.js';
+import Person from '../models/Person.js';
 
 const personService = {
   createPerson: async (personData) => {

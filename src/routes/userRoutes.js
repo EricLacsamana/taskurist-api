@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticateJWT } from '../middleware/auth-middleware.js';
+import { authenticateJWT } from '../middleware/authMiddleware.js';
 import userController from '../controllers/userController.js';
 
 const userRoutes = Router();

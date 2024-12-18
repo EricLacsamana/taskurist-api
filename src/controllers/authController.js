@@ -9,45 +9,54 @@ import sendEmail from '../utils/email.js';
 const authController = {
     register: async (req, res, next) => {
         try {
-            const { name, email, username, password, inviteToken } = req.body;
+            const { username, email, password } = req.body;
 
-            if (!username || !password || !inviteToken) {
+            if (!username || !email || !password) {
                 throw new BadRequestError('Username, password, and invite token are required');
             }
 
-            const decodedInviteData = jwt.verify(inviteToken, process.env.JWT_SECRET);
+            // TODO: Implement invite token scheme
+            // const decodedInviteData = jwt.verify(inviteToken, process.env.JWT_SECRET);
           
-            const currentTimestamp = Date.now() / 1000;
+            // const currentTimestamp = Date.now() / 1000;
 
-            if (decodedInviteData.exp < currentTimestamp) {
-                throw new UnauthorizedError('Invite token has expired');
-            }
+            // if (decodedInviteData.exp < currentTimestamp) {
+            //     throw new UnauthorizedError('Invite token has expired');
+            // }
         
-            const invitePersonId = decodedInviteData.personId;
+            // const invitePersonId = decodedInviteData.personId;
 
-            const person = await personService.getPersonById(invitePersonId);
+            // const person = await personService.getPersonById(invitePersonId);
 
-            if (!person) {
-                throw new NotFoundError('Associated person not found for the invite');
-            }
+            // if (!person) {
+            //     throw new NotFoundError('Associated person not found for the invite');
+            // }
 
-            const existingUser = await userService.findUserByUsername(username);
-            if (existingUser) {
+            const existingUserEmail = await userService.findUserByUsername(username);
+
+            if (existingUserEmail) {
                 throw new ConflictError('Username already in use');
             }
 
+            const existingUsername = await userService.findUserByEmail(email);
+
+            if (existingUsername) {
+                throw new ConflictError('Email already in use');
+            }
+
+
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const newUser = await userService.createUser({ name, email, username, password: hashedPassword });
+            const newUser = await userService.createUser({ email, username, password: hashedPassword });
 
-            const newPerson = await personService.createPerson({ name, email, userId: newUser._id });
+            // const newPerson = await personService.createPerson({ firstName, middleName, lastName });
 
             const token = authService.generateToken(newUser);
 
             res.status(201).json({
                 message: 'User registered successfully',
                 user: newUser,
-                person: newPerson,
+                // person: newPerson,
                 jwt: token,
             });
         } catch (err) {

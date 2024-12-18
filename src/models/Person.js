@@ -8,12 +8,12 @@ const personSchema = new Schema({
         required: true,
         trim: true,
     },
-    lastName: {
+    middleName: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
     },
-    jobTitle: {
+    lastName: {
         type: String,
         required: true,
         trim: true,

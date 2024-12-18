@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     person: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Person',
-        required: true,
+        required: false,
     },
 }, {
     timestamps: true,

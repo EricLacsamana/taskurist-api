@@ -8,12 +8,12 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
     },
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-    },
+    // username: {
+    //     type: String,
+    //     required: true,
+    //     unique: true,
+    //     trim: true,
+    // },
     password: {
         type: String,
         required: true,
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin', 'moderator'],
         default: 'user',
     },
-    person: {
+    personalInformation: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Person',
         required: false,

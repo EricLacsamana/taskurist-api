@@ -44,7 +44,6 @@ const authController = {
                 throw new ConflictError('Email already in use');
             }
 
-
             const hashedPassword = await bcrypt.hash(password, 10);
 
             const newUser = await userService.createUser({ email, username, password: hashedPassword });
@@ -57,7 +56,7 @@ const authController = {
                 message: 'User registered successfully',
                 user: newUser,
                 // person: newPerson,
-                jwt: token,
+                accessToken: token,
             });
         } catch (err) {
             next(err);
@@ -80,8 +79,8 @@ const authController = {
             const token = authService.generateToken(user);
 
             res.status(200).json({
-                user: { id: user._id, username: user.username },
-                jwt: token,
+                user: { id: user._id, email: user.email, role: user.role, personalInformation: user.personalInformation },
+                accessToken: token,
             });
         } catch (err) {
             next(err);

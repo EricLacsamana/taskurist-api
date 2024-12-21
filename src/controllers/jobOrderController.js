@@ -4,9 +4,10 @@ import { NotFoundError } from '../errors/NotFoundError.js';
 
 const jobOrderController = {
   createJobOrder: async (req, res, next) => {
-    const { title, description, jobType, schedule, workersAssigned, assetsToRepair, repairDetails, totalQuantity, inventorySku } = req.body;
+    const { title, description, jobType, serviceDetails } = req.body;
+
     try {
-      const jobOrderData = { title, description, jobType, schedule, workersAssigned, assetsToRepair, repairDetails, totalQuantity, inventorySku };
+      const jobOrderData = { title, description, jobType, serviceDetails };
       const jobOrder = await jobOrderService.createJobOrder(jobOrderData);
       res.status(201).json({ success: true, data: jobOrder });
     } catch (error) {

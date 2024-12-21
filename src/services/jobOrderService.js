@@ -2,6 +2,7 @@ import JobOrder from "../models/JobOrder.js";
 
 const jobOrderService = {
   createJobOrder: async (jobOrderData) => {
+    console.log('jobOrderData', jobOrderData);
     try {
       const newJobOrder = new JobOrder(jobOrderData);
       await newJobOrder.save();
@@ -14,9 +15,9 @@ const jobOrderService = {
   getJobOrderById: async (jobOrderId) => {
     try {
       const jobOrder = await JobOrder.findById(jobOrderId)
-        .populate('workersAssigned', 'name email')
-        .populate('assetsToRepair', 'name type')
-        .populate('inventorySku', 'sku name');
+        .populate('assignedPersonnel', 'name email')
+        .populate('assets', 'name type')
+        // .populate('inventorySku', 'sku name');
       if (!jobOrder) {
         throw new Error('Job Order not found');
       }
@@ -28,7 +29,7 @@ const jobOrderService = {
 
   getAllJobOrders: async () => {
     try {
-      const jobOrders = await JobOrder.find()
+      const jobOrders = await JobOrder.find().sort({ createdAt: -1 });
         // .populate('workersAssigned', 'name email')
         // .populate('assetsToRepair', 'name type')
         // .populate('inventorySku', 'sku name');

@@ -15,60 +15,55 @@ const jobOrderSchema = new Schema({
   },
   jobType: {
     type: String,
-    enum: ['repair', 'maintenance', 'production'],
-    required: true
-  },
-  schedule: [
-    {
-      date: {
-        type: Date,
-        required: true
-      },
-      expectedQuantity: {
-        type: Number,
-        required: true,
-        min: 1
-      },
-      actualQuantity: {
-        type: Number,
-        default: 0,
-        min: 0
-      }
-    }
-  ],
-  workersAssigned: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    }
-  ],
-  assetsToRepair: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Asset',
-      required: true
-    }
-  ],
-  inventorySku: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Inventory',
+    enum: ['service', 'maintenance', 'production'],
     required: false
   },
-  repairDetails: {
+  // schedules: [
+  //   {
+  //     date: {
+  //       type: Date,
+  //       required: false
+  //     },
+  //     expectedQuantity: {
+  //       type: Number,
+  //       required: false,
+  //       min: 1
+  //     },
+  //     actualQuantity: {
+  //       type: Number,
+  //       default: 0,
+  //       min: 0
+  //     }
+  //   }
+  // ],
+  // assignedPersonnel: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: 'User',
+  //     required: false
+  //   }
+  // ],
+  // assets: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: 'Asset',
+  //     required: false
+  //   }
+  // ],
+  // inventorySku: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Inventory',
+  //   required: false
+  // },
+  serviceDetails: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
-  jobStatus: {
+  status: {
     type: String,
     enum: ['pending', 'in-progress', 'completed'],
     default: 'pending'
-  },
-  totalQuantity: {
-    type: Number,
-    required: true,
-    min: 1
   },
   history: [
     {
@@ -96,22 +91,22 @@ const jobOrderSchema = new Schema({
 });
 
 // Pre-save validation for schedule and actualQuantity
-jobOrderSchema.pre('save', function(next) {
-  const dates = this.schedule.map(s => s.date.toISOString());
-  const uniqueDates = new Set(dates);
-  if (uniqueDates.size !== dates.length) {
-    return next(new Error('Duplicate dates in schedule.'));
-  }
+// jobOrderSchema.pre('save', function(next) {
+//   const dates = this.schedule.map(s => s.date.toISOString());
+//   const uniqueDates = new Set(dates);
+//   if (uniqueDates.size !== dates.length) {
+//     return next(new Error('Duplicate dates in schedule.'));
+//   }
 
-  this.schedule.forEach(scheduleItem => {
-    if (scheduleItem.actualQuantity > scheduleItem.expectedQuantity) {
-      return next(new Error("Actual quantity cannot exceed expected quantity."));
-    }
-  });
+//   this.schedule.forEach(scheduleItem => {
+//     if (scheduleItem.actualQuantity > scheduleItem.expectedQuantity) {
+//       return next(new Error("Actual quantity cannot exceed expected quantity."));
+//     }
+//   });
 
-  this.updatedAt = Date.now();
-  next();
-});
+//   this.updatedAt = Date.now();
+//   next();
+// });
 
 // Method to handle job status transitions
 jobOrderSchema.methods.setStatus = function(newStatus, updatedBy) {

@@ -2,10 +2,10 @@ import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 
 const userService = {
-    createUser: async ({ email, username, password }) => {
+    createUser: async ({ name, email, password }) => {
         const newUser = new User({
+            name,
             email,
-            username,
             password,
         });
 
@@ -17,10 +17,6 @@ const userService = {
     },
     findUserByEmail: async (email) => {
         const user = await User.findOne({ email });
-        return user;
-    },
-    findUserByUsername: async (username) => {
-        const user = await User.findOne({ username });
         return user;
     },
     findAllUsers: async () => {

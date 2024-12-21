@@ -3,9 +3,9 @@ import { NotFoundError } from '../errors/NotFoundError.js';
 
 const userController = {
     createUser: async (req, res, next) => {
-        const { name, email, username, password } = req.body;
+        const { name, email, password } = req.body;
         try {
-            const user = await userService.createUser({ name, email, username, password });
+            const user = await userService.createUser({ name, email, password });
             res.status(201).json({ data: user });
         } catch (error) {
             next(error);
@@ -33,14 +33,14 @@ const userController = {
     },
     updateUser: async (req, res, next) => {
         const { id } = req.params;
-        const { name, email, username, password } = req.body;
+        const { name, email, password } = req.body;
         try {
             const existingUser = await userService.findUserById(id);
             if (!existingUser) {
                 throw new NotFoundError('User not found');
             }
 
-            const updatedUserData = await userService.updateUserById(id, { name, email, username, password });
+            const updatedUserData = await userService.updateUserById(id, { name, email, password });
             res.status(200).json({ success: true, data: updatedUserData });
         } catch (error) {
             next(error);

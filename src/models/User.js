@@ -1,6 +1,14 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: false
+    },
+    name: {
+        type: String,
+        required: true,
+    },
     email: {
         type: String,
         required: true,
@@ -8,25 +16,14 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
     },
-    // username: {
-    //     type: String,
-    //     required: true,
-    //     unique: true,
-    //     trim: true,
-    // },
     password: {
         type: String,
         required: true,
     },
     role: {
         type: String,
-        enum: ['user', 'admin', 'moderator'],
+        enum: ['user', 'admin'],
         default: 'user',
-    },
-    personalInformation: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Person',
-        required: false,
     },
 }, {
     timestamps: true,

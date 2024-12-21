@@ -9,10 +9,10 @@ import sendEmail from '../utils/email.js';
 const authController = {
     register: async (req, res, next) => {
         try {
-            const { username, email, password } = req.body;
-
-            if (!username || !email || !password) {
-                throw new BadRequestError('Username, password, and invite token are required');
+            const { name, email, password } = req.body;
+            console.log('body', req.body);
+            if (!name || !email || !password) {
+                throw new BadRequestError('Name, Password, and Invite token are required');
             }
 
             // TODO: Implement invite token scheme
@@ -32,30 +32,21 @@ const authController = {
             //     throw new NotFoundError('Associated person not found for the invite');
             // }
 
-            const existingUserEmail = await userService.findUserByUsername(username);
+            const existingUser = await userService.findUserByEmail(email);
 
-            if (existingUserEmail) {
-                throw new ConflictError('Username already in use');
-            }
-
-            const existingUsername = await userService.findUserByEmail(email);
-
-            if (existingUsername) {
+            if (existingUser) {
                 throw new ConflictError('Email already in use');
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const newUser = await userService.createUser({ email, username, password: hashedPassword });
-
-            // const newPerson = await personService.createPerson({ firstName, middleName, lastName });
+            const newUser = await userService.createUser({ name, email, password: hashedPassword });
 
             const token = authService.generateToken(newUser);
 
             res.status(201).json({
                 message: 'User registered successfully',
                 user: newUser,
-                // person: newPerson,
                 accessToken: token,
             });
         } catch (err) {
@@ -63,23 +54,28 @@ const authController = {
         }
     },
     login: async (req, res, next) => {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
         try {
-            const user = await userService.findUserByUsername(username); 
+            const user = await userService.findUserByEmail(email); 
             if (!user) {
-                throw new NotFoundError('Username or password is incorrect');
+                throw new NotFoundError('Email or password is incorrect');
             }
 
             const match = await bcrypt.compare(password, user.password);
 
             if (!match) {
-                throw new UnauthorizedError('Username or password is incorrect');
+                throw new UnauthorizedError('Email or password is incorrect');
             }
 
             const token = authService.generateToken(user);
 
             res.status(200).json({
-                user: { id: user._id, email: user.email, role: user.role, personalInformation: user.personalInformation },
+                user: { 
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                },
                 accessToken: token,
             });
         } catch (err) {

@@ -12,8 +12,10 @@ const userController = {
         }
     },
     getUsers: async (req, res, next) => {
+        const query = req.query;
+
         try {
-            const users = await userService.findAllUsers();
+            const users = await userService.findAllUsers(query);
             res.status(200).json({ success: true, data: users });
         } catch (error) {
             next(error);

@@ -14,13 +14,13 @@ const userService = {
     findUserById: async (id) => {
         const user = await User.findById(id);
         return user;
-    },
+    },  
     findUserByEmail: async (email) => {
         const user = await User.findOne({ email });
         return user;
     },
-    findAllUsers: async () => {
-        return User.find();
+    findAllUsers: async (query) => {
+        return User.find(query);
     },
     updateUserById: async (id, payload) => {
         if (payload.password) {

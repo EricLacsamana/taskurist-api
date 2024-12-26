@@ -18,31 +18,35 @@ const jobOrderSchema = new Schema({
     enum: ['service', 'maintenance', 'production'],
     required: false
   },
-  // schedules: [
-  //   {
-  //     date: {
-  //       type: Date,
-  //       required: false
-  //     },
-  //     expectedQuantity: {
-  //       type: Number,
-  //       required: false,
-  //       min: 1
-  //     },
-  //     actualQuantity: {
-  //       type: Number,
-  //       default: 0,
-  //       min: 0
-  //     }
-  //   }
-  // ],
-  // assignedPersonnel: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'User',
-  //     required: false
-  //   }
-  // ],
+  schedules: [
+    {
+      startDate: {
+        type: Date,
+        required: false
+      },
+      endDate : {
+        type: Date,
+        required: false
+      },
+      expectedQuantity: {
+        type: Number,
+        required: false,
+        min: 1
+      },
+      actualQuantity: {
+        type: Number,
+        default: 0,
+        min: 0
+      }
+    }
+  ],
+  assignedPersonnel: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: false
+    }
+  ],
   // assets: [
   //   {
   //     type: mongoose.Schema.Types.ObjectId,
@@ -131,13 +135,13 @@ jobOrderSchema.methods.setStatus = function(newStatus, updatedBy) {
 };
 
 // Preventing duplicate job orders with the same title and description
-jobOrderSchema.pre('save', async function(next) {
-  const existingJobOrder = await JobOrder.findOne({ title: this.title, description: this.description });
-  if (existingJobOrder) {
-    return next(new Error('Job order with this title and description already exists.'));
-  }
-  next();
-});
+// jobOrderSchema.pre('save', async function(next) {
+//   const existingJobOrder = await JobOrder.findOne({ title: this.title, description: this.description });
+//   if (existingJobOrder) {
+//     return next(new Error('Job order with this title and description already exists.'));
+//   }
+//   next();
+// });
 
 const JobOrder = mongoose.model('JobOrder', jobOrderSchema);
 

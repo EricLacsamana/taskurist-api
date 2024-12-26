@@ -10,6 +10,8 @@ jobOrderRoutes.get('/', jobOrderController.getJobOrders);
 
 jobOrderRoutes.get('/:id', jobOrderController.getJobOrder);
 
+jobOrderRoutes.put('/:id', jobOrderController.updateJobOrder);
+
 jobOrderRoutes.put('/:id/status', jobOrderController.updateJobOrderStatus);
 
 jobOrderRoutes.delete('/:id', jobOrderController.deleteJobOrder);

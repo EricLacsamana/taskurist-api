@@ -4,10 +4,10 @@ import { NotFoundError } from '../errors/NotFoundError.js';
 
 const jobOrderController = {
   createJobOrder: async (req, res, next) => {
-    const { title, description, jobType, serviceDetails } = req.body;
+    const { title, description, jobType, status, serviceDetails, schedules, assignedPersonnel } = req.body;
 
     try {
-      const jobOrderData = { title, description, jobType, serviceDetails };
+      const jobOrderData = { title, description, jobType, status, serviceDetails, schedules, assignedPersonnel };
       const jobOrder = await jobOrderService.createJobOrder(jobOrderData);
       res.status(201).json({ success: true, data: jobOrder });
     } catch (error) {
@@ -16,8 +16,10 @@ const jobOrderController = {
   },
 
   getJobOrders: async (req, res, next) => {
+    const query = req.query;
+
     try {
-      const jobOrders = await jobOrderService.getAllJobOrders();
+      const jobOrders = await jobOrderService.getAllJobOrders(query);
       res.status(200).json({ success: true, data: jobOrders });
     } catch (error) {
       next(error);
@@ -25,9 +27,10 @@ const jobOrderController = {
   },
 
   getJobOrder: async (req, res, next) => {
-    const { jobOrderId } = req.params;
+    const { id } = req.params;
+
     try {
-      const jobOrder = await jobOrderService.getJobOrderById(jobOrderId);
+      const jobOrder = await jobOrderService.getJobOrderById(id);
       if (!jobOrder) {
         throw new NotFoundError('Job Order not found');
       }
@@ -37,11 +40,39 @@ const jobOrderController = {
     }
   },
 
-  updateJobOrderStatus: async (req, res, next) => {
-    const { jobOrderId } = req.params;
-    const { newStatus, updatedBy } = req.body; // assuming updatedBy is the ID of the user making the update
+  updateJobOrder: async (req, res, next) => {
+    const { id } = req.params;
+    const { title, description, jobType, status, serviceDetails, schedules, assignedPersonnel } = req.body;
+  
     try {
-      const updatedJobOrder = await jobOrderService.updateJobOrderStatus(jobOrderId, newStatus, updatedBy);
+
+      const existingJobOrder = await jobOrderService.getJobOrderById(id);
+      if (!existingJobOrder) {
+        throw new NotFoundError('Job Order not found');
+      }
+
+      const updatedJobOrderData = {
+        title,
+        description,
+        jobType,
+        status,
+        serviceDetails,
+        schedules,
+        assignedPersonnel
+      };
+
+      const updatedJobOrder = await jobOrderService.updateJobOrder(id, updatedJobOrderData);
+      res.status(200).json({ success: true, data: updatedJobOrder });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  updateJobOrderStatus: async (req, res, next) => {
+    const { id } = req.params;
+    const { newStatus, updatedBy } = req.body;
+    try {
+      const updatedJobOrder = await jobOrderService.updateJobOrderStatus(id, newStatus, updatedBy);
       res.status(200).json({ success: true, data: updatedJobOrder });
     } catch (error) {
       next(error);

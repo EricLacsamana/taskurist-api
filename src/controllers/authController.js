@@ -3,14 +3,14 @@ import authService from '../services/authService.js';
 import userService from '../services/userService.js';
 import { UnauthorizedError } from '../errors/UnauthorizedError.js';
 import { ConflictError } from '../errors/ConflictError.js';
-import { NotFoundError } from '../errors/NotFoundError.js';
+
 import sendEmail from '../utils/email.js';
 
 const authController = {
     register: async (req, res, next) => {
         try {
             const { name, email, password } = req.body;
-            console.log('body', req.body);
+
             if (!name || !email || !password) {
                 throw new BadRequestError('Name, Password, and Invite token are required');
             }
@@ -58,7 +58,7 @@ const authController = {
         try {
             const user = await userService.findUserByEmail(email); 
             if (!user) {
-                throw new NotFoundError('Email or password is incorrect');
+                throw new UnauthorizedError('Email or password is incorrect');
             }
 
             const match = await bcrypt.compare(password, user.password);

@@ -27,6 +27,7 @@ const jobOrderService = {
   },
 
   getAllJobOrders: async (query) => {
+
     try {
       const jobOrders = await JobOrder.find(query).sort({ createdAt: -1 });
 

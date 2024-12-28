@@ -9,7 +9,7 @@ const jobOrderController = {
     try {
       const jobOrderData = { title, description, jobType, status, serviceDetails, schedules, assignedPersonnel };
       const jobOrder = await jobOrderService.createJobOrder(jobOrderData);
-      res.status(201).json({ success: true, data: jobOrder });
+      res.status(201).json(jobOrder);
     } catch (error) {
       next(error);
     }
@@ -20,7 +20,7 @@ const jobOrderController = {
 
     try {
       const jobOrders = await jobOrderService.getAllJobOrders(query);
-      res.status(200).json({ success: true, data: jobOrders });
+      res.status(200).json(jobOrders);
     } catch (error) {
       next(error);
     }
@@ -34,7 +34,7 @@ const jobOrderController = {
       if (!jobOrder) {
         throw new NotFoundError('Job Order not found');
       }
-      res.status(200).json({ success: true, data: jobOrder });
+      res.status(200).json(jobOrder);
     } catch (error) {
       next(error);
     }
@@ -62,7 +62,7 @@ const jobOrderController = {
       };
 
       const updatedJobOrder = await jobOrderService.updateJobOrder(id, updatedJobOrderData);
-      res.status(200).json({ success: true, data: updatedJobOrder });
+      res.status(200).json(updatedJobOrder);
     } catch (error) {
       next(error);
     }
@@ -73,16 +73,16 @@ const jobOrderController = {
     const { newStatus, updatedBy } = req.body;
     try {
       const updatedJobOrder = await jobOrderService.updateJobOrderStatus(id, newStatus, updatedBy);
-      res.status(200).json({ success: true, data: updatedJobOrder });
+      res.status(200).json(updatedJobOrder);
     } catch (error) {
       next(error);
     }
   },
 
   deleteJobOrder: async (req, res, next) => {
-    const { jobOrderId } = req.params;
+    const { id } = req.params;
     try {
-      const jobOrder = await jobOrderService.deleteJobOrderById(jobOrderId);
+      const jobOrder = await jobOrderService.deleteJobOrderById(id);
       if (!jobOrder) {
         throw new NotFoundError('Job Order not found');
       }

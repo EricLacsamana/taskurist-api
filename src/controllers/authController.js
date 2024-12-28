@@ -84,22 +84,41 @@ const authController = {
     },
     sendInvite: async (req, res, next) => {
         try {
-            const { personId } = req.body;
-            const inviteToken = authService.generateInviteToken(personId);
-            const attendeeName = 'John';
-            const registrationLink = '';
+            const { name, email, role } = req.body;
+
+            const inviteToken = authService.generateAccessToken({ name, email, role });
+            const attendeeName = name;
+            const registrationLink = `/${process.env.WEB_URL}/signup?token=${inviteToken}`;
             const htmlContent = `
                 <html>
-                <body>
-                    <h1>You're Invited to Join Taskurist App!</h1>
-                    <p>Dear ${attendeeName},</p>
-                    <p>To get started, please create your account by clicking the link below:</p>
-                    <p><a href="${registrationLink}">Create Your Account and Register Now</a></p>
-                    <p>If you have any questions, feel free to contact us at support@taskurist.com.</p>
-                    <p>We look forward to having you onboard!</p>
-                </body>
+                    <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
+                        <h3>You're Invited to Join Taskurist App!</h3>
+                        <p>Dear ${attendeeName},</p>
+                        <p>To get started, please create your account by clicking the button below:</p>
+                        <table role="presentation" cellspacing="0" cellpadding="0" style="margin: 20px 0;">
+                            <tr>
+                                <td style="border-radius: 4px; background-color: #007BFF; text-align: center;">
+                                    <a href="${registrationLink}" 
+                                        style="
+                                            display: inline-block; 
+                                            padding: 10px 20px; 
+                                            color: white; 
+                                            font-size: 14px; 
+                                            text-decoration: none; 
+                                            font-weight: bold; 
+                                            border-radius: 4px; 
+                                            cursor: pointer;">
+                                        Create Your Account and Register Now
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                        <p>If you have any questions, feel free to contact us at <a href="mailto:support@taskurist.com">support@taskurist.com</a>.</p>
+                        <p>We look forward to having you onboard!</p>
+                    </body>
                 </html>
-            `;
+                `;
+
 
             const plainTextContent = `
                 Taskurist App Registration Invitation
@@ -112,14 +131,24 @@ const authController = {
                 If you have any questions, contact us at support@taskurist.com.
 
                 We look forward to having you onboard!`;
+                console.log('test', plainTextContent);
+            await sendEmail(email, 'Taskurist Account Invitation', plainTextContent, htmlContent)
 
-            await sendEmail(req.user.email, 'Seminar Confirmation', plainTextContent, htmlContent)
-
-            res.status(200).json({ message: 'Invite sent successfully', inviteToken });
+            res.status(200).json({ message: 'Invite sent successfully' });
         } catch (err) {
             next(err);
         }
-    },    
+    },
+    verifyInvite: async (req, res, next) => {
+    const { name, email, role } = req.payload;
+
+        try {
+
+            res.status(200).json(req.payload);
+        } catch (err) {
+            next(err);
+        }
+    }
 };
 
 export default authController;

@@ -12,7 +12,7 @@ const userService = {
         return newUser.save();
     },
     findUserById: async (id) => {
-        const user = await User.findById(id);
+        const user = await User.findById(id).select('-password');
         return user;
     },  
     findUserByEmail: async (email) => {

@@ -4,6 +4,10 @@ import userController from '../controllers/userController.js';
 
 const userRoutes = Router();
 
+userRoutes.get('/me', authenticateJWT, userController.getProfile);
+
+userRoutes.put('/me', authenticateJWT, userController.updateProfile);
+
 userRoutes.post('/', authenticateJWT, userController.createUser);
 
 userRoutes.get('/', authenticateJWT, userController.getUsers);

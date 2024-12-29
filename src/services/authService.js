@@ -7,7 +7,7 @@ const authService = {
         });
     },
     generateAccessToken: (payload) => {
-        return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
+        return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
         });
     },

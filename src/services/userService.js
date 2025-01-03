@@ -25,6 +25,8 @@ const userService = {
     updateUserById: async (id, payload) => {
         if (payload.password) {
             payload.password = await bcrypt.hash(payload.password, 10);
+        } else {
+            delete payload.password;
         }
 
         return User.findByIdAndUpdate(id, payload, { new: true });

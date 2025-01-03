@@ -5,10 +5,13 @@ import { authenticateAdmin, validateAccessToken } from '../middleware/authMiddle
 const authRoutes = Router();
 
 authRoutes.post('/send-invite', authController.sendInvite);
-authRoutes.post('/verify-invite', validateAccessToken, authController.verifyInvite);
-authRoutes.post('/register-with-invite', authController.register);
-authRoutes.post('/register', authController.register);
-authRoutes.post('/login', authController.login);
 
+authRoutes.post('/verify-invite', validateAccessToken, authController.verifyInvite);
+
+authRoutes.post('/register-with-invite', authController.register);
+
+authRoutes.post('/register', authController.register);
+
+authRoutes.post('/login', authController.login);
 
 export default authRoutes;

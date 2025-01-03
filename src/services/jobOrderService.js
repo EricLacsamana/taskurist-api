@@ -14,9 +14,8 @@ const jobOrderService = {
   getJobOrderById: async (id) => {
     try {
       const jobOrder = await JobOrder.findById(id)
-        .populate('assignedPersonnel', 'name email')
-        // .populate('assets', 'name type')
-        // .populate('inventorySku', 'sku name');
+        .populate('assignedPersonnel', 'name email');
+
       if (!jobOrder) {
         throw new Error('Job Order not found');
       }

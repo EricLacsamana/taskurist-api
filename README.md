@@ -37,7 +37,7 @@ Before you begin, ensure you have the following installed on your machine:
 
     Example .env:
     ```PORT=3000```
-    ```MONGODB_URI=mongodb+srv://eric:Gl4aPhYB3XNsUoKR@cluster0.jdytk.mongodb.net/taskurist?retryWrites=true&w=majority```
+    ```MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.jdytk.mongodb.net/<db_name>?retryWrites=true&w=majority```
     ```JWT_SECRET=your_jwt_secret_key```
 
 4. **Start the server**:

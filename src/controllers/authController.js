@@ -115,8 +115,6 @@ const authController = {
                 </body>
                 </html>
             `;
-        
-
 
             const plainTextContent = `
                 Taskurist App Registration Invitation
@@ -129,7 +127,7 @@ const authController = {
                 If you have any questions, contact us at support@taskurist.com.
 
                 We look forward to having you onboard!`;
-                console.log('test', plainTextContent);
+
             await sendEmail(email, 'Taskurist Account Invitation', plainTextContent, htmlContent)
 
             res.status(200).json({ message: 'Invite sent successfully' });
